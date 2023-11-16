@@ -1,0 +1,99 @@
+/* RWD */
+
+[class*="col-"] {
+    width: 100%;
+    float: left;
+  }
+  
+@media only screen and (min-width: 900px) {
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+
+/* site wide styling */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #a6b4b3;
+}
+
+main {
+    padding: 10%;
+}
+
+div.villager {
+    height: 400px;
+    padding: 50px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: #ddcec6;
+    margin: 0 20px;
+}
+
+div.dialogue {
+    background-color: #f0e7da;
+    border-radius: 30px;
+    font-size: 20px;
+    padding: 15px;
+}
+
+div.game {
+    text-align: center;
+    padding: 10px 0px;
+
+}
+
+[id*="card"] {
+    width: 200px;
+    height: 283px;
+    border: 10px solid white;
+    border-radius: 12%;
+    background-color: #ddcec6;
+    color: #731816;
+    padding: 50px;
+    display: inline-block;
+    text-align: center;
+    margin: 1px;
+    vertical-align: top;
+    font-size: 64px;
+    line-height: 150px;
+  }
+
+  #button-bar {
+    position: relative;
+    top: -25px;
+    z-index: 9;
+    text-align: right;
+    height: 30px;
+    padding-right: 15px;
+  }
+
+  #end-buttons {
+    display: none;
+  }
+
+  #refresh-buttons {
+    display: none;
+  }
+
+  button {
+    padding: 18px 32px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #ddcec6;
+  }
