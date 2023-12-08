@@ -1,7 +1,8 @@
 /* global variables */
 
 let gamePrompt = document.getElementById('game-prompt');
-let nameTag = document.getElementById('name-tag')
+let nameTag = document.getElementById('name-tag');
+
 
 let endButtons = document.getElementById('end-buttons');
 let refreshButtons = document.getElementById('refresh-buttons');

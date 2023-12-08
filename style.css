@@ -38,7 +38,7 @@ main {
 }
 
 div.villager {
-    height: 400px;
+    height: 320px;
     padding: 40px;
     border-radius: 25px;
     text-align: center;
@@ -56,23 +56,24 @@ div.dialogue {
 div.game {
     text-align: center;
     padding: 10px 0px;
+    margin-top: 15px;
 
 }
 
 [id*="card"] {
-    width: 200px;
-    height: 283px;
+    width: 100px;
+    height: 141px;
     border: 10px solid white;
-    border-radius: 12%;
+    border-radius: 15%;
     background-color: #ddcec6;
     color: #731816;
-    padding: 50px;
+    padding: 25px;
     display: inline-block;
     text-align: center;
     margin: 1px;
     vertical-align: top;
-    font-size: 64px;
-    line-height: 150px;
+    font-size: 32px;
+    line-height: 75px;
   }
 
   #button-bar {
@@ -97,7 +98,7 @@ div.game {
   }
 
   button {
-    padding: 18px 32px;
+    padding: 12px 22px;
     font-size: 16px;
     border-radius: 20px;
     border: none;
@@ -105,13 +106,8 @@ div.game {
     background-color: #ddcec6;
   }
 
-  .villager-card {
-    background-color: #ddcec6;
-    border: 10px solid white;
-    border-radius: 25px;
-    height: 320px;
-    text-align: center;
-    padding: 20px;
+  button:hover {
+    background-color: #ceb2a3;
   }
 
   #name-tag {
@@ -128,7 +124,64 @@ div.game {
     display: none;
   }
 
+  .villager-card {
+    background-color: #ddcec6;
+    border: 10px solid white;
+    border-radius: 25px;
+    height: 220px;
+    text-align: center;
+    padding: 20px;
+  }
+
   #villager-photo {
     object-fit: contain;
+    max-height: 150px;
+  }
+
+  /* responsive design */
+
+  @media only screen and (min-width: 410px) {
+    [id*="card"] {
+      width: 150px;
+      height: 212px;
+      border-radius: 12%;
+      padding: 50px;
+      font-size: 48px;
+      line-height: 100px;
+    }
+    button {
+      padding: 18px 32px;
+    }
+    .villager-card {
+      height: 320px;
+    }
+    #villager-photo {
+      max-height: 250px;
+    }
+    div.villager {
+      height: 400px;
+  }
+  }
+
+  @media only screen and (min-width: 600px) {
+  [id*="card"] {
+    width: 200px;
+    height: 283px;
+    border-radius: 12%;
+    padding: 50px;
+    font-size: 64px;
+    line-height: 150px;
+  }
+  button {
+    padding: 18px 32px;
+  }
+  .villager-card {
+    height: 320px;
+  }
+  #villager-photo {
     max-height: 250px;
   }
+  div.villager {
+    height: 400px;
+}
+}
