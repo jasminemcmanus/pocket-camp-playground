@@ -1,24 +1,118 @@
 /* global variables */
 
 let gamePrompt = document.getElementById('game-prompt');
+let nameTag = document.getElementById('name-tag')
+
 let endButtons = document.getElementById('end-buttons');
 let refreshButtons = document.getElementById('refresh-buttons');
+let startButtons = document.getElementById('start-buttons');
+const buttonGroup = [endButtons, refreshButtons, startButtons]
 
-/* event listeners */
+let villagerPhoto = document.getElementById('villager-photo')
+let villagerName = document.getElementById('villager-name')
 
-let startGameButton = document.getElementById('start');
-startGameButton.addEventListener('click', startGame);
-
-let endGameButtons = document.querySelectorAll('.end');
-for (i of endGameButtons) {
-  i.addEventListener('click', endGame);
+const villager = {
+    name : '',
+    url : '',
+    phrase : '',
+    colour1 : '',
+    colour2 : ''
 }
 
-let refreshGameButtons = document.querySelectorAll('.refresh');
-for (i of refreshGameButtons) {
-  i.addEventListener('click', refreshGame);
+let speed = 35;
+
+/* type effect test */
+
+function typeEffect(element, speed) {
+	let text = element.innerHTML;
+	element.innerHTML = "";
+	
+	let i = 0;
+	let timer = setInterval(function() {
+    if (i < text.length) {
+      element.append(text.charAt(i));
+      i++;
+    } else {
+      clearInterval(timer);
+    }
+  }, speed);
 }
 
+typeEffect(gamePrompt, speed)
+
+/* get ACNH villager from API */
+
+function getVillager() {
+  
+    const key = config.ACNH_API_KEY;
+    let index = Math.floor(Math.random() * 488 );
+  
+      fetch(`https://api.nookipedia.com/villagers`, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": key,
+          "Accept-Version" : "1.6.0"
+        }})
+        .then(function(response) {
+          return response.json();
+      })
+  
+      .then(function(data) {
+        villager.name = data[index].name
+        villager.url = data[index].image_url
+        villager.phrase = data[index].phrase
+        villager.colour1 = data[index].text_color
+        villager.colour2 = data[index].title_color
+        updateApp()
+      })
+    }
+
+function updateApp() {
+    villagerPhoto.src = villager.url  
+    villagerName.innerText = villager.name
+    villagerName.style.color = `#${villager.colour1}`
+    handleDialogue(`${villager.name} wants to play high card, low card!`, startButtons)
+    nameTag.style.backgroundColor = `#${villager.colour2}`
+    nameTag.style.display = 'block'
+}
+
+function clearApp() {
+    villagerPhoto.src = './assets/ACNH-villager.png'
+    villagerName.innerText = null
+    handleDialogue(`Waiting for a villager to arrive . . .`, null)
+    nameTag.style.display = 'none'
+    clearCard(1)
+    clearCard(2)
+}
+getVillager()
+
+/* handle buttons */
+
+let btns = document.querySelectorAll('button')
+for (i of btns) {
+    i.addEventListener('click', handleClick);
+}
+
+function handleClick(event) {
+    let functionName = event.target.id;
+    switch (functionName) {
+        case "start-game": startGame(); break;
+        case "higher": endGame("higher"); break;
+        case "lower": endGame("lower"); break;
+        case "new-game": newGame(); break;
+        case "refresh-game": refreshGame(); break;
+    }
+}
+
+/* button display functions */
+
+function displayButtons(array, type) {
+    for (element of array) {
+        if (element === type) {
+            element.style.display = 'inline-block'
+        } else element.style.display = 'none'
+    }
+}
 /* card handling functions */
 
 function getCard(no) {
@@ -50,34 +144,29 @@ function compareCards(value1, value2) {
 
 function startGame() {
     getCard(1)
-    gamePrompt.innerText = 'Do you think the next card will be higher or lower?'
-    startGameButton.style.display = 'none'
-    endButtons.style.display = 'inline-block'
+    handleDialogue(`Do you think the next card will be higher or lower, ${villager.phrase}?`, endButtons)
+}
+
+function newGame() {
+    clearCard(1)
+    clearCard(2)
+    startGame()
 }
 
 /* game part B */
 
-function endGame(event) {
-    
+function endGame(prediction) {
+
     getCard(2)
-    
-    let prediction = event.target.innerText;
     
     let card1 = Number(document.querySelector('#card1').innerText);
     let card2 = Number(document.querySelector('#card2').innerText);
-
-    console.log(card1)
-    console.log(card2)
 
     let outcome = compareCards(card1, card2)
 
    if (outcome !== 'equal') {
         handlePrediction(prediction, outcome, card2)
-   } else endGame(event)
-
-   endButtons.style.display = 'none'
-   refreshButtons.style.display = 'inline-block'
-
+   } else endGame(prediction)
 }
 
 /* handle prediction */
@@ -85,6 +174,7 @@ function endGame(event) {
 function handlePrediction(prediction, outcome, number) {
     if (prediction === outcome) {
         handleWin(number)
+
     }
     else handleLoss(number)
 }
@@ -92,11 +182,8 @@ function handlePrediction(prediction, outcome, number) {
 /* refresh game */
 
 function refreshGame() {
-    refreshButtons.style.display = 'none'
-    startGameButton.style.display = 'inline-block'
-    gamePrompt.innerText = `Let's play a game of high card, low card!`
-    clearCard(1)
-    clearCard(2)
+    clearApp()
+    getVillager()
 }
 
 /* randomise dialogue */
@@ -107,8 +194,7 @@ function getRandomDialogue(array) {
     let index = Math.floor(Math.random() * max );
 
     gamePrompt.innerText = array[index]
-
-    return gamePrompt.innerText
+    handleDialogue(array[index], refreshButtons)
 }
 
 function handleWin(number) {
@@ -130,11 +216,21 @@ function handleLoss(number) {
     const loseDialogue = [
         `It's... ${number}. I hate to say 'lose' but.... you lose.`,
         `It's... ${number}. But don't let one tiny loss discourage you. There's always next time!`,
-        `Oooh! ${number}! That's too bad.`,
-        `Oooh! ${number}! That's a shame. You didn't get it.`,
+        `Oooh! ${number}! That's too bad, ${villager.phrase}.`,
+        `Oooh! ${number}! That's a shame. You didn't get it, ${villager.phrase}.`,
         `Oh no! It's a ${number}! That's too bad, you guessed wrong.`,
-        `HERE WE GO! IT'S A.... It's a ${number}. That's too bad.`
+        `HERE WE GO! IT'S A.... It's a ${number}. That's too bad, ${villager.phrase}.`
     ]
     
     return getRandomDialogue(loseDialogue);
+}
+
+/* updating dialogue box */
+
+function handleDialogue(text, button) {
+    gamePrompt.innerText = text
+    displayButtons(buttonGroup)
+    let delay = gamePrompt.innerText.length * speed + speed;
+    typeEffect(gamePrompt, speed)
+    setTimeout(() => {displayButtons(buttonGroup, button)}, delay)
 }

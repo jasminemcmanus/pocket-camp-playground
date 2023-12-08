@@ -24,6 +24,9 @@
 
 * {
     box-sizing: border-box;
+    font-family: "sofia-pro-soft", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {
@@ -36,18 +39,18 @@ main {
 
 div.villager {
     height: 400px;
-    padding: 50px;
+    padding: 40px;
     border-radius: 25px;
     text-align: center;
-    background-color: #ddcec6;
     margin: 0 20px;
 }
 
 div.dialogue {
     background-color: #f0e7da;
     border-radius: 30px;
-    font-size: 20px;
+    font-size: 18px;
     padding: 15px 30px;
+    min-height: 120px;
 }
 
 div.game {
@@ -89,6 +92,10 @@ div.game {
     display: none;
   }
 
+  #start-buttons {
+    display: none;
+  }
+
   button {
     padding: 18px 32px;
     font-size: 16px;
@@ -96,4 +103,32 @@ div.game {
     border: none;
     cursor: pointer;
     background-color: #ddcec6;
+  }
+
+  .villager-card {
+    background-color: #ddcec6;
+    border: 10px solid white;
+    border-radius: 25px;
+    height: 320px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  #name-tag {
+    background-color: #f0e7da;
+    padding: 0 32px;
+    font-size: 16px;
+    border-radius: 20px;
+    position: relative;
+    top: -25px;
+    left: -25px;
+    float: right;
+    z-index: 9;
+    width: fit-content;
+    display: none;
+  }
+
+  #villager-photo {
+    object-fit: contain;
+    max-height: 250px;
   }

@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pocket Camp Playground</title>
     <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.typekit.net/wwa1tyh.css">
     <script defer src="index.js"></script>
+    <script type="text/javascript" src="config.js"></script>
   </head>
   <body>
     <main>
         <div class="col-5">
-            <div class="villager">Villager</div>
+            <div class="villager">
+                <div class="villager-card">
+                    <img id="villager-photo" src="./assets/ACNH-villager.png" alt="acnh-villager">
+                </div>
+                <div id="name-tag">
+                    <p id="villager-name"></p>
+                </div>
+            </div>
         </div>   
         <div class="col-7">
             <div>
                 <div class="dialogue">
-                    <p id="game-prompt">Let's play a game of high card, low card!</p>
+                    <p id="game-prompt">Waiting for a villager to arrive . . .</p>
                 </div>
                 <div id="button-bar">
-                    <button id="start">Okay!</button>
+                    <span id="start-buttons">
+                        <button id="start-game">Okay!</button>
+                    </span>
                     <span id="end-buttons">
-                        <button class="end">higher</button>
-                        <button class="end">lower</button>
+                        <button id="higher">higher</button>
+                        <button id="lower">lower</button>
                     </span>
                     <span id="refresh-buttons">
-                        <button class="refresh">Play again</button>
+                        <button id="new-game">Play again</button>
+                        <button id="refresh-game" class="refresh">New villager</button>
                     </span>
                 </div>
             </div>
